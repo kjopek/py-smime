@@ -16,6 +16,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from utils import wrap
+from ctypes import c_void_p, c_int
+
 # following constants come directly from OpenSSL library:
 PKCS7_TEXT            = 0x1
 PKCS7_NOCERTS         = 0x2
@@ -23,7 +26,7 @@ PKCS7_NOSIGS          = 0x4
 PKCS7_NOCHAIN         = 0x8
 PKCS7_NOINTERN        = 0x10
 PKCS7_NOVERIFY        = 0x20
-KCS7_DETACHED         = 0x40
+PKCS7_DETACHED         = 0x40
 PKCS7_BINARY          = 0x80
 PKCS7_NOATTR          = 0x100
 PKCS7_NOSMIMECAP      = 0x200
@@ -118,3 +121,25 @@ text = lambda lib, _in, out: lib.SMIME_text(_in, out)
 
 #PKCS7 *PKCS7_new(void)
 new = lambda lib: lib.PKCS7_new()
+
+def pkcs7_init(lib):
+    wrap(lib.PKCS7_set_type, [c_void_p, c_int], c_int)
+    wrap(lib.PKCS7_set_content, [c_void_p, c_void_p], c_int)
+    wrap(lib.PKCS7_add_certificate, [c_void_p, c_void_p], c_int)
+    wrap(lib.PKCS7_signatureVerify, [c_void_p, c_void_p, c_void_p, c_void_p], c_int)
+    wrap(lib.PKCS7_dataVerify, [c_void_p, c_void_p, c_void_p, c_void_p, c_void_p], c_int)
+    wrap(lib.PKCS7_dataInit, [c_void_p, c_void_p], c_void_p)
+    wrap(lib.PKCS7_dataFinal, [c_void_p, c_void_p], c_int)
+    wrap(lib.PKCS7_dataEncode, [c_void_p, c_void_p, c_void_p, c_void_p], c_void_p)
+    wrap(lib.PKCS7_add_signature, [c_void_p, c_void_p, c_void_p, c_void_p], c_void_p)
+    wrap(lib.PKCS7_verify, [c_void_p, c_void_p, c_void_p, c_void_p, c_void_p, c_int], c_int)
+    wrap(lib.PKCS7_encrypt, [c_void_p, c_void_p, c_void_p, c_int], c_void_p)
+    wrap(lib.PKCS7_decrypt, [c_void_p, c_void_p, c_void_p, c_void_p, c_int], c_int)
+    wrap(lib.PKCS7_add_attrib_smimecap, [c_void_p, c_void_p], c_int)
+    wrap(lib.PKCS7_get_smimecap, [c_void_p], c_void_p)
+    wrap(lib.PKCS7_simple_smimecap, [c_void_p, c_int, c_int], c_int)
+    wrap(lib.SMIME_write_PKCS7, [c_void_p, c_void_p, c_void_p, c_int], c_int)
+    wrap(lib.SMIME_read_PKCS7, [c_void_p, c_void_p], c_void_p)
+    wrap(lib.SMIME_crlf_copy, [c_void_p, c_void_p, c_int], c_int)
+    wrap(lib.SMIME_text, [c_void_p, c_void_p], c_int)
+    wrap(lib.PKCS7_new, [], c_void_p) 

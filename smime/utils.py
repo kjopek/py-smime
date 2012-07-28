@@ -18,24 +18,8 @@
 
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-import ctypes
-import weakref
-from bio import bio_init
-from pkcs7 import pkcs7_init
-# common functions for library
-def load_library(path='/usr/lib/libssl.so'):
-    '''
-    Loads OpenSSL library
     
-    @param: path Path to library .so file
-    @return: CDLL object associated with OpenSSL library file
-    '''
-    ssl = ctypes.CDLL(path)
-    ssl.SSL_library_init()
-    ssl.SSL_load_error_strings()
+def wrap(func, arg, ret):
+    func.argtypes = arg
+    func.restype = ret
 
-    bio_init(ssl)
-    pkcs7_init(ssl)
-    
-    return ssl

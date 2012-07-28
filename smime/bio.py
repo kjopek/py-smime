@@ -16,6 +16,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from ctypes import c_int, c_void_p, c_char_p, c_long
+from utils import wrap
+
 #BIO *	BIO_new(BIO_METHOD *type);
 new = lambda lib, _type: lib.BIO_new(_type)
 
@@ -40,3 +43,13 @@ puts = lambda lib, bio, buf: lib.BIO_puts(bio, buf)
 #size_t BIO_ctrl_pending(BIO *b);
 ctrl_pending = lambda lib, bio: lib.BIO_ctrl_pending(bio)
 
+
+def bio_init(lib):
+    wrap(lib.BIO_new, [c_void_p], c_void_p)
+    wrap(lib.BIO_free, [c_void_p], c_int)
+    wrap(lib.BIO_new_fd, [c_int, c_int], c_void_p)
+    wrap(lib.BIO_read, [c_void_p, c_void_p, c_int], c_int)
+    wrap(lib.BIO_gets, [c_void_p, c_char_p, c_int], c_int)
+    wrap(lib.BIO_write, [c_void_p, c_void_p, c_int], c_int)
+    wrap(lib.BIO_puts, [c_void_p, c_char_p], c_int)
+    wrap(lib.BIO_ctrl_pending, [c_void_p], c_long)
