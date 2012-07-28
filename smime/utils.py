@@ -3,10 +3,7 @@
  
  (C) Konrad Jopek 2012
  
- Some functionality is common with M2Crypto, but M2Crypto uses limited version
- of PKCS7_sign function which does not provide possibility to create S/MIME 
- objects with specified digest algorithm. PKCS7_sign currently supports only
- SHA-1.
+ Utilities
 
  ----------------------------------------------------------------------------
  "THE BEER-WARE LICENSE":
