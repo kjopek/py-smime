@@ -13,6 +13,9 @@
  ----------------------------------------------------------------------------
 '''
 
+from c_types import c_int, c_void_p, c_long_p
+from utils import wrap
+
 FORMATS = {'PEM' : 0, 'DER' : 1}
 
 #X509 *d2i_X509_bio(BIO *bp,X509 **x509);
@@ -23,4 +26,6 @@ der_X509_bio = lambda lib, bio, x509: lib.d2i_X509_bio(bio, x509)
 pem_x509_bio = lambda lib, bio, name, header, data, _len: lib.PEM_read_bio(bio,
                name, header, data, _len)
                
-
+def x509_init(lib):
+    wrap(lib.d2i_X509_bio, [c_void_p, c_void_p], c_void_p)
+    wrap(lib.PEM_read_bio, [c_void_p, c_void_p, c_void_p, c_void_p, c_long_p], c_int)
