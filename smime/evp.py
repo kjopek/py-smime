@@ -24,6 +24,8 @@ c_pass_callback_t = CFUNCTYPE(c_char_p)
 # PEM_read_bio_PrivateKey
 pem_read_bio_private_key = lambda lib, bio, evp, callback, arg: lib.PEM_read_bio_PrivateKey(bio,
                            evp, callback, arg)
+# void		EVP_PKEY_free(EVP_PKEY *pkey);
+pkey_free = lambda lib, pkey: lib.EVP_PKEY_free(pkey)
 
 evp_md_sha256 = lambda lib: lib.EVP_sha256()
 evp_md_sha384 = lambda lib: lib.EVP_sha384()
@@ -32,6 +34,7 @@ evp_md_sha512 = lambda lib: lib.EVP_sha512()
 def evp_init(lib):
     wrap(lib.PEM_read_bio_PrivateKey, [c_void_p, c_void_p, c_pass_callback_t, 
                                        c_void_p], c_void_p)
+    wrap(lib.EVP_PKEY_free, [c_void_p], None)
     wrap(lib.EVP_sha256, [], c_void_p)
     wrap(lib.EVP_sha384, [], c_void_p)
     wrap(lib.EVP_sha512, [], c_void_p)

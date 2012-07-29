@@ -27,6 +27,9 @@ der_X509_bio = lambda lib, bio, x509: lib.d2i_X509_bio(bio, x509)
 pem_x509_bio = lambda lib, bio, name, header, data, _len: lib.PEM_read_bio(bio,
                name, header, data, _len)
 
+free = lambda lib, x509: lib.X509_free(x509)
+
 def x509_init(lib):
     wrap(lib.d2i_X509_bio, [c_void_p, c_void_p], c_void_p)
     wrap(lib.PEM_read_bio, [c_void_p, c_void_p, c_void_p, c_void_p, c_long_p], c_int)
+    wrap(lib.X509_free, [c_void_p], None)
