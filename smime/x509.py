@@ -13,16 +13,17 @@
  ----------------------------------------------------------------------------
 '''
 
-from c_types import c_int, c_void_p, c_long_p
+from ctypes import c_int, c_void_p, POINTER, c_long
 from utils import wrap
 
 FORMATS = {'PEM' : 0, 'DER' : 1}
+c_long_p = POINTER(c_long)
 
 #X509 *d2i_X509_bio(BIO *bp,X509 **x509);
 der_X509_bio = lambda lib, bio, x509: lib.d2i_X509_bio(bio, x509)
 
 #int	PEM_read_bio(BIO *bp, char **name, char **header,
-#		unsigned char **data,long *len);
+#       unsigned char **data,long *len);
 pem_x509_bio = lambda lib, bio, name, header, data, _len: lib.PEM_read_bio(bio,
                name, header, data, _len)
 

@@ -86,7 +86,7 @@ verify = lambda lib, p7, certs, store, indata, out, flags: lib.PKCS7_verify(p7,
          
 #PKCS7 *PKCS7_encrypt(STACK_OF(X509) *certs, BIO *in, const EVP_CIPHER *cipher,
 #                     int flags);
-encrypt = lambda lib, certs, in, cipher, flags: lib.PKCS7_encrypt(certs, in,
+encrypt = lambda lib, certs, _in, cipher, flags: lib.PKCS7_encrypt(certs, _in,
           cipher, flags)
 
 #int PKCS7_decrypt(PKCS7 *p7, EVP_PKEY *pkey, X509 *cert, BIO *data, int flags);
@@ -103,7 +103,7 @@ add_attrib_smimecap = lambda lib, si, cap: lib.PKCS7_add_attrib_smimecap(si,
 get_smimecap = lambda lib, si: lib.PKCS7_get_smimecap(si)
 
 #int PKCS7_simple_smimecap(STACK_OF(X509_ALGOR) *sk, int nid, int arg);
-simple_smimecap = lambda lib, sk, nid, arg = lib.PKCS7_simple_smimecap(sk, nid, 
+simple_smimecap = lambda lib, sk, nid, arg: lib.PKCS7_simple_smimecap(sk, nid, 
                   arg)
                   
 #int SMIME_write_PKCS7(BIO *bio, PKCS7 *p7, BIO *data, int flags);
@@ -130,7 +130,7 @@ def pkcs7_init(lib):
     wrap(lib.PKCS7_dataVerify, [c_void_p, c_void_p, c_void_p, c_void_p, c_void_p], c_int)
     wrap(lib.PKCS7_dataInit, [c_void_p, c_void_p], c_void_p)
     wrap(lib.PKCS7_dataFinal, [c_void_p, c_void_p], c_int)
-    wrap(lib.PKCS7_dataEncode, [c_void_p, c_void_p, c_void_p, c_void_p], c_void_p)
+    wrap(lib.PKCS7_dataDecode, [c_void_p, c_void_p, c_void_p, c_void_p], c_void_p)
     wrap(lib.PKCS7_add_signature, [c_void_p, c_void_p, c_void_p, c_void_p], c_void_p)
     wrap(lib.PKCS7_verify, [c_void_p, c_void_p, c_void_p, c_void_p, c_void_p, c_int], c_int)
     wrap(lib.PKCS7_encrypt, [c_void_p, c_void_p, c_void_p, c_int], c_void_p)

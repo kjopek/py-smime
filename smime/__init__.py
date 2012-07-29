@@ -24,6 +24,7 @@ import weakref
 from bio import bio_init
 from pkcs7 import pkcs7_init
 from x509 import x509_init
+from evp import evp_init
 
 # common functions for library
 def load_library(path='/usr/lib/libssl.so'):
@@ -40,5 +41,5 @@ def load_library(path='/usr/lib/libssl.so'):
     bio_init(ssl)
     pkcs7_init(ssl)
     x509_init(ssl)
-    
+    evp_init(ssl)
     return ssl
