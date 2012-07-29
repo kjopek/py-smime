@@ -43,6 +43,9 @@ puts = lambda lib, bio, buf: lib.BIO_puts(bio, buf)
 #size_t BIO_ctrl_pending(BIO *b);
 ctrl_pending = lambda lib, bio: lib.BIO_ctrl_pending(bio)
 
+#BIO_METHOD *BIO_s_mem(void);
+s_mem = lambda lib: lib.BIO_s_mem()
+
 def bio_init(lib):
     wrap(lib.BIO_new, [c_void_p], c_void_p)
     wrap(lib.BIO_free, [c_void_p], c_int)
@@ -52,3 +55,4 @@ def bio_init(lib):
     wrap(lib.BIO_write, [c_void_p, c_void_p, c_int], c_int)
     wrap(lib.BIO_puts, [c_void_p, c_char_p], c_int)
     wrap(lib.BIO_ctrl_pending, [c_void_p], c_size_t)
+    wrap(lib.BIO_s_mem, [], c_void_p)
